@@ -14,7 +14,6 @@ export 'src/enums.dart';
 export 'src/models.dart';
 
 class JMDict {
-
   JMDict._();
 
   static late final JMDict _instance = JMDict._();
@@ -30,11 +29,15 @@ class JMDict {
   late JMDictUpdater _updater = JMDictUpdater();
 
   void _warnAlreadyInitialized() {
-    JMDictLogUtils.log("JMDict already initialized",);
+    JMDictLogUtils.log(
+      "JMDict already initialized",
+    );
   }
 
   void _warnNotInitialized() {
-    JMDictLogUtils.log("JMDict not initialized yet",);
+    JMDictLogUtils.log(
+      "JMDict not initialized yet",
+    );
   }
 
   bool _checkInit() {
@@ -48,7 +51,10 @@ class JMDict {
   ///
   /// Enabling [forceUpdate] will append/update into existing local Database
   /// if exists
-  Future<void> initFromAsset({required String assetPath, bool forceUpdate = false,}) async {
+  Future<void> initFromAsset({
+    required String assetPath,
+    bool forceUpdate = false,
+  }) async {
     if (_isInitialized || _isLoading) {
       _warnAlreadyInitialized();
       return;
@@ -58,7 +64,10 @@ class JMDict {
       final store = await openStore();
       final box = store.box<JMDictEntryImpl>();
       if (box.isEmpty() || !box.isEmpty() && forceUpdate) {
-        await _load(assetPath, store,);
+        await _load(
+          assetPath,
+          store,
+        );
       }
       _store = store;
       _isInitialized = true;
@@ -75,7 +84,10 @@ class JMDict {
   /// JMDict.gz, a valid XML file)
   /// Enabling [forceUpdate] will append/update into existing local Database
   /// if exists
-  Future<void> initFromFile({required File xmlFile, bool forceUpdate = false,}) async {
+  Future<void> initFromFile({
+    required File xmlFile,
+    bool forceUpdate = false,
+  }) async {
     if (_isInitialized || _isLoading) {
       _warnAlreadyInitialized();
       return;
@@ -85,7 +97,10 @@ class JMDict {
     final box = store.box<JMDictEntryImpl>();
     if (await xmlFile.exists()) {
       if (box.isEmpty() || !box.isEmpty() && forceUpdate) {
-        await _loader.load(xmlFile, store,);
+        await _loader.load(
+          xmlFile,
+          store,
+        );
       }
     } else {
       _isInitialized = false;
@@ -156,8 +171,14 @@ class JMDict {
     );
   }
 
-  Future<void> _load(String assetPath, Store store,) async {
-    await _loader.loadFromAsset(assetPath, store,);
+  Future<void> _load(
+    String assetPath,
+    Store store,
+  ) async {
+    await _loader.loadFromAsset(
+      assetPath,
+      store,
+    );
   }
 
   /// Updates current database by downloading a new JMdict.gz file.
@@ -212,16 +233,23 @@ class JMDict {
   void removeCachedFiles() async {
     final tmpDir = await getTemporaryDirectory();
     final tmpPath = tmpDir.uri.toFilePath();
-    ["JMdict", "JMdict.gz",].map(
-      (fileName) => File("$tmpPath$fileName",),
-    ).map(
-      (file) => Future<void>(
-        () async {
-          if (await file.exists()) {
-            file.delete();
-          }
-        },
-      ),
-    );
+    [
+      "JMdict",
+      "JMdict.gz",
+    ]
+        .map(
+          (fileName) => File(
+            "$tmpPath$fileName",
+          ),
+        )
+        .map(
+          (file) => Future<void>(
+            () async {
+              if (await file.exists()) {
+                file.delete();
+              }
+            },
+          ),
+        );
   }
 }

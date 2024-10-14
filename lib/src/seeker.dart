@@ -4,7 +4,6 @@ import 'package:kana_kit/kana_kit.dart';
 import 'entities.dart';
 
 class JMDictSeeker {
-
   final KanaKit _kanaKit = KanaKit();
 
   List<JMDictEntryImpl>? search({
@@ -35,17 +34,25 @@ class JMDictSeeker {
     int? limit,
   }) {
     keyword = keyword.replaceAll(
-      RegExp(r"(=>)|(::)|(&&)",),
+      RegExp(
+        r"(=>)|(::)|(&&)",
+      ),
       "",
     );
     if (keyword.isEmpty) {
       return null;
     }
     final box = store.box<JMDictEntryImpl>();
-    Condition<JMDictEntryImpl> condition = JMDictEntryImpl_.kanaTexts.contains(keyword,).orAny(
+    Condition<JMDictEntryImpl> condition = JMDictEntryImpl_.kanaTexts
+        .contains(
+      keyword,
+    )
+        .orAny(
       [
         JMDictEntryImpl_.romajiTexts.contains(
-          _kanaKit.toRomaji(keyword,),
+          _kanaKit.toRomaji(
+            keyword,
+          ),
         ),
         JMDictEntryImpl_.kanaTexts.contains(
           keyword,
@@ -169,7 +176,11 @@ class JMDictSeeker {
 
     // return box.query(condition,).build().find();
 
-    final query = box.query(condition,).build();
+    final query = box
+        .query(
+          condition,
+        )
+        .build();
     if (offset != null && offset != 0) {
       query.offset = offset.abs();
     }

@@ -4,7 +4,9 @@ import 'package:kana_kit/kana_kit.dart';
 
 import 'enums.dart';
 
-final RegExp _nfRegex = RegExp(r"^nf\d{2}$",);
+final RegExp _nfRegex = RegExp(
+  r"^nf\d{2}$",
+);
 
 /// The kanji element, or in its absence, the reading element, is
 /// the defining component of each entry.
@@ -19,54 +21,95 @@ final RegExp _nfRegex = RegExp(r"^nf\d{2}$",);
 ///
 /// Quoted from JMdict:45-54
 class KanjiElement {
-
-  KanjiElement(this.element, Set<String>? keInf, Set<String>? kePri,)
-      : information = _information(keInf,) {
-    final pris = _priorities(kePri,);
-    priorities = pris?.elementAt(0,);
-    _nf = pris?.elementAt(1,);
+  KanjiElement(
+    this.element,
+    Set<String>? keInf,
+    Set<String>? kePri,
+  ) : information = _information(
+          keInf,
+        ) {
+    final pris = _priorities(
+      kePri,
+    );
+    priorities = pris?.elementAt(
+      0,
+    );
+    _nf = pris?.elementAt(
+      1,
+    );
   }
 
   static late final Map<String, KanjiInfo> _keInf = Map.fromEntries(
     KanjiInfo.values.map(
-          (e) => MapEntry(describeEnum(e,), e,),
+      (e) => MapEntry(
+        describeEnum(
+          e,
+        ),
+        e,
+      ),
     ),
   );
 
-  static Set<KanjiInfo>? _information(Set<String>? keInf,) {
+  static Set<KanjiInfo>? _information(
+    Set<String>? keInf,
+  ) {
     if (keInf != null) {
-      return keInf.map((e) => _keInf[e],).whereType<KanjiInfo>().toSet();
+      return keInf
+          .map(
+            (e) => _keInf[e],
+          )
+          .whereType<KanjiInfo>()
+          .toSet();
     }
+    return null;
   }
 
-  static List<dynamic>? _priorities(Set<String>? kePri,) {
+  static List<dynamic>? _priorities(
+    Set<String>? kePri,
+  ) {
     if (kePri != null) {
       final pris = <ReadingPriority>{};
       int? nf;
       final priorities = Map.fromEntries(
         ReadingPriority.values.map(
           (e) => MapEntry(
-            describeEnum(e,), e,
+            describeEnum(
+              e,
+            ),
+            e,
           ),
         ),
       );
       kePri.forEach(
         (pri) {
-          if (_nfRegex.hasMatch(pri,)) {
-            nf ??= int.parse(pri.substring(2, 4,),);
+          if (_nfRegex.hasMatch(
+            pri,
+          )) {
+            nf ??= int.parse(
+              pri.substring(
+                2,
+                4,
+              ),
+            );
             pris.add(
               ReadingPriority.nf,
             );
           } else {
             final _pri = priorities[pri];
             if (_pri != null) {
-              pris.add(_pri,);
+              pris.add(
+                _pri,
+              );
             }
           }
         },
       );
-      return [pris, nf,];
+      return [
+        pris,
+        nf,
+      ];
     }
+    return null;
   }
 
   /// This element will contain a word or short phrase in Japanese
@@ -96,6 +139,7 @@ class KanjiElement {
   late final Set<ReadingPriority>? priorities;
 
   int? _nf;
+
   /// See [ReadingPriority.nf]
   int? get frequencyOfUseRanking => _nf;
 
@@ -112,54 +156,94 @@ class KanjiElement {
 ///
 /// Quoted from JMdict:101-106
 class ReadingElement {
-
-  ReadingElement(this.element, this.readingRestrictions, Set<String>? reInf, Set<String>? rePri, [this.noKanji = false])
-      : information = _information(reInf,) {
-    final pris = _priorities(rePri,);
-    priorities = pris?.elementAt(0,);
-    _nf = pris?.elementAt(1,);
+  ReadingElement(this.element, this.readingRestrictions, Set<String>? reInf,
+      Set<String>? rePri,
+      [this.noKanji = false])
+      : information = _information(
+          reInf,
+        ) {
+    final pris = _priorities(
+      rePri,
+    );
+    priorities = pris?.elementAt(
+      0,
+    );
+    _nf = pris?.elementAt(
+      1,
+    );
   }
 
   static late final Map<String, ReadingInfo> _reInf = Map.fromEntries(
     ReadingInfo.values.map(
       (e) => MapEntry(
-        describeEnum(e,), e,
+        describeEnum(
+          e,
+        ),
+        e,
       ),
     ),
   );
 
-  static Set<ReadingInfo>? _information(Set<String>? reInf,) {
+  static Set<ReadingInfo>? _information(
+    Set<String>? reInf,
+  ) {
     if (reInf != null) {
-      return reInf.map((e) => _reInf[e],).whereType<ReadingInfo>().toSet();
+      return reInf
+          .map(
+            (e) => _reInf[e],
+          )
+          .whereType<ReadingInfo>()
+          .toSet();
     }
+    return null;
   }
 
-  static List<dynamic>? _priorities(Set<String>? rePri,) {
+  static List<dynamic>? _priorities(
+    Set<String>? rePri,
+  ) {
     if (rePri != null) {
       final pris = <ReadingPriority>{};
       int? nf;
       final priorities = Map.fromEntries(
         ReadingPriority.values.map(
-          (e) => MapEntry(describeEnum(e,), e,),
+          (e) => MapEntry(
+            describeEnum(
+              e,
+            ),
+            e,
+          ),
         ),
       );
       rePri.forEach(
         (pri) {
-          if (_nfRegex.hasMatch(pri,)) {
-            nf ??= int.parse(pri.substring(2, 4,),);
+          if (_nfRegex.hasMatch(
+            pri,
+          )) {
+            nf ??= int.parse(
+              pri.substring(
+                2,
+                4,
+              ),
+            );
             pris.add(
               ReadingPriority.nf,
             );
           } else {
             final _pri = priorities[pri];
             if (_pri != null) {
-              pris.add(_pri,);
+              pris.add(
+                _pri,
+              );
             }
           }
         },
       );
-      return [pris,nf,];
+      return [
+        pris,
+        nf,
+      ];
     }
+    return null;
   }
 
   /// This element content is restricted to kana and related
@@ -207,16 +291,25 @@ class ReadingElement {
   String toString() => element;
 
   /// Romaji reading of this element
-  String get toRomaji => KanaKit().toRomaji(element,);
+  String get toRomaji => KanaKit().toRomaji(
+        element,
+      );
 }
 
 late final Map<String, SenseLanguage> _lang = Map.fromEntries(
   SenseLanguage.values.map(
-    (e) => MapEntry(describeEnum(e,), e,),
+    (e) => MapEntry(
+      describeEnum(
+        e,
+      ),
+      e,
+    ),
   ),
 );
 
-SenseLanguage _language(String? lang,) {
+SenseLanguage _language(
+  String? lang,
+) {
   if (lang != null) {
     final sLang = _lang[lang];
     if (sLang != null) {
@@ -233,18 +326,32 @@ SenseLanguage _language(String? lang,) {
 ///
 /// Quoted from JMdict:174-177
 class SenseLanguageSource {
-
-  SenseLanguageSource(this.source, String? lang, String? lsType, [this.isWasei = false,])
-      : language = _language(lang,),
-        type = _type(lsType,);
+  SenseLanguageSource(
+    this.source,
+    String? lang,
+    String? lsType, [
+    this.isWasei = false,
+  ])  : language = _language(
+          lang,
+        ),
+        type = _type(
+          lsType,
+        );
 
   static late final Map<String, SourceLanguageType> _lsType = Map.fromEntries(
     SourceLanguageType.values.map(
-      (e) => MapEntry(describeEnum(e,), e,),
+      (e) => MapEntry(
+        describeEnum(
+          e,
+        ),
+        e,
+      ),
     ),
   );
 
-  static SourceLanguageType _type(String? lsType,) {
+  static SourceLanguageType _type(
+    String? lsType,
+  ) {
     if (lsType != null) {
       final __type = _lsType[lsType];
       if (__type != null) {
@@ -282,7 +389,9 @@ class SenseLanguageSource {
   final bool isWasei;
 
   @override
-  String toString() => "(${describeEnum(language,)}) $source";
+  String toString() => "(${describeEnum(
+        language,
+      )}) $source";
 }
 
 /// Within each sense will be one or more "glosses", i.e.
@@ -292,14 +401,24 @@ class SenseLanguageSource {
 ///
 /// Quoted from JMdict:199-202
 class SenseGlossary {
-
-  SenseGlossary(this.text, String? lang, String? gType,)
-      : language = _language(lang,),
+  SenseGlossary(
+    this.text,
+    String? lang,
+    String? gType,
+  )   : language = _language(
+          lang,
+        ),
         type = gType != null ? _gType[gType] : null;
 
-  static late final Map<String, GlossaryType> _gType = Map<String, GlossaryType>.fromEntries(
+  static late final Map<String, GlossaryType> _gType =
+      Map<String, GlossaryType>.fromEntries(
     GlossaryType.values.map(
-      (e) => MapEntry(describeEnum(e,), e,),
+      (e) => MapEntry(
+        describeEnum(
+          e,
+        ),
+        e,
+      ),
     ),
   );
 
@@ -319,7 +438,9 @@ class SenseGlossary {
   final GlossaryType? type;
 
   @override
-  String toString() => "${describeEnum(language,)} $text";
+  String toString() => "${describeEnum(
+        language,
+      )} $text";
 }
 
 /// The sense element will record the translational equivalent
@@ -329,84 +450,148 @@ class SenseGlossary {
 ///
 /// Quoted from JMdict:135-138
 class SenseElement {
-
   SenseElement(
-      this.kanjiRestrictions,
-      this.readingRestrictions,
-      this.crossReferences,
-      this.antonyms,
-      Set<String>? pos,
-      Set<String>? field,
-      Set<String>? misc,
-      this.information,
-      Set<String>? lSource,
-      Set<String>? dial,
-      Set<String> gloss,
-      )
-      : partOfSpeeches = _partOfSpeeches(pos,),
-        fields = _fields(field,),
-        miscellaneous = _miscellaneous(misc,),
-        dialects = _dialects(dial,),
-        languageSources = _lSource(lSource,),
-        glossaries = _glossaries(gloss,);
+    this.kanjiRestrictions,
+    this.readingRestrictions,
+    this.crossReferences,
+    this.antonyms,
+    Set<String>? pos,
+    Set<String>? field,
+    Set<String>? misc,
+    this.information,
+    Set<String>? lSource,
+    Set<String>? dial,
+    Set<String> gloss,
+  )   : partOfSpeeches = _partOfSpeeches(
+          pos,
+        ),
+        fields = _fields(
+          field,
+        ),
+        miscellaneous = _miscellaneous(
+          misc,
+        ),
+        dialects = _dialects(
+          dial,
+        ),
+        languageSources = _lSource(
+          lSource,
+        ),
+        glossaries = _glossaries(
+          gloss,
+        );
 
-  static late final Map<String, PartOfSpeech> _pos = Map<String, PartOfSpeech>.fromEntries(
+  static late final Map<String, PartOfSpeech> _pos =
+      Map<String, PartOfSpeech>.fromEntries(
     PartOfSpeech.values.map(
-      (e) => MapEntry(describeEnum(e,).replaceAll("_", "-"), e,),
+      (e) => MapEntry(
+        describeEnum(
+          e,
+        ).replaceAll("_", "-"),
+        e,
+      ),
     ),
   );
 
-  static Set<PartOfSpeech>? _partOfSpeeches(Set<String>? pos,) {
+  static Set<PartOfSpeech>? _partOfSpeeches(
+    Set<String>? pos,
+  ) {
     if (pos != null) {
       return Set<PartOfSpeech>.from(
-        pos.map((e) => _pos[e],).whereType<PartOfSpeech>(),
+        pos
+            .map(
+              (e) => _pos[e],
+            )
+            .whereType<PartOfSpeech>(),
       );
     }
+    return null;
   }
 
-  static late final Map<String, SenseField> _field = Map<String, SenseField>.fromEntries(
+  static late final Map<String, SenseField> _field =
+      Map<String, SenseField>.fromEntries(
     SenseField.values.map(
-      (e) => MapEntry(describeEnum(e,), e,),
+      (e) => MapEntry(
+        describeEnum(
+          e,
+        ),
+        e,
+      ),
     ),
   );
 
-  static Set<SenseField>? _fields(Set<String>? field,) {
+  static Set<SenseField>? _fields(
+    Set<String>? field,
+  ) {
     if (field != null) {
       return Set<SenseField>.from(
-        field.map((e) => _field[e],).whereType<SenseField>(),
+        field
+            .map(
+              (e) => _field[e],
+            )
+            .whereType<SenseField>(),
       );
     }
+    return null;
   }
 
-  static late final Map<String, SenseMiscellaneous> _misc = Map<String, SenseMiscellaneous>.fromEntries(
+  static late final Map<String, SenseMiscellaneous> _misc =
+      Map<String, SenseMiscellaneous>.fromEntries(
     SenseMiscellaneous.values.map(
-      (e) => MapEntry(describeEnum(e,).replaceAll("_", "-"), e,),
+      (e) => MapEntry(
+        describeEnum(
+          e,
+        ).replaceAll("_", "-"),
+        e,
+      ),
     ),
   );
 
-  static Set<SenseMiscellaneous>? _miscellaneous(Set<String>? misc,) {
+  static Set<SenseMiscellaneous>? _miscellaneous(
+    Set<String>? misc,
+  ) {
     if (misc != null) {
       return Set<SenseMiscellaneous>.from(
-        misc.map((e) => _misc[e],).whereType<SenseMiscellaneous>(),
+        misc
+            .map(
+              (e) => _misc[e],
+            )
+            .whereType<SenseMiscellaneous>(),
       );
     }
+    return null;
   }
 
-  static late final Map<String, Dialect> _dial = Map<String, Dialect>.fromEntries(
+  static late final Map<String, Dialect> _dial =
+      Map<String, Dialect>.fromEntries(
     Dialect.values.map(
-      (e) => MapEntry(describeEnum(e,), e,),
+      (e) => MapEntry(
+        describeEnum(
+          e,
+        ),
+        e,
+      ),
     ),
   );
 
-  static Set<Dialect>? _dialects(Set<String>? dial,) {
+  static Set<Dialect>? _dialects(
+    Set<String>? dial,
+  ) {
     if (dial != null) {
       return Set<Dialect>.from(
-        dial.map((e) => _dial[e],).whereType<Dialect>(),
+        dial
+            .map(
+              (e) => _dial[e],
+            )
+            .whereType<Dialect>(),
       );
     }
+    return null;
   }
 
-  static Set<SenseLanguageSource>? _lSource(Set<String>? lSource,) {
+  static Set<SenseLanguageSource>? _lSource(
+    Set<String>? lSource,
+  ) {
     if (lSource != null) {
       final languageSources = <SenseLanguageSource>{};
       for (String _lSource in lSource) {
@@ -414,12 +599,20 @@ class SenseElement {
         String? lang;
         String? lsType;
         bool isWasei = false;
-        final lSourceSplit = _lSource.split(ATTR_DELIMITER,);
+        final lSourceSplit = _lSource.split(
+          ATTR_DELIMITER,
+        );
         for (String item in lSourceSplit) {
           if (item.indexOf("lang=") == 0) {
-            lang ??= item.replaceFirst("lang=", "",);
+            lang ??= item.replaceFirst(
+              "lang=",
+              "",
+            );
           } else if (item.indexOf("type=") == 0) {
-            lsType ??= item.replaceFirst("type=", "",);
+            lsType ??= item.replaceFirst(
+              "type=",
+              "",
+            );
           } else if (item == "_wasei_") {
             isWasei = true;
           } else if (item.isNotEmpty) {
@@ -431,26 +624,42 @@ class SenseElement {
         }
         if (source != null) {
           languageSources.add(
-            SenseLanguageSource(source, lang, lsType, isWasei,),
+            SenseLanguageSource(
+              source,
+              lang,
+              lsType,
+              isWasei,
+            ),
           );
         }
       }
       return languageSources;
     }
+    return null;
   }
 
-  static Set<SenseGlossary> _glossaries(Set<String> gloss,) {
+  static Set<SenseGlossary> _glossaries(
+    Set<String> gloss,
+  ) {
     final glossaries = <SenseGlossary>{};
     for (String _gloss in gloss) {
       String? text;
       String? lang;
       String? gType;
-      final glossSplit = _gloss.split(ATTR_DELIMITER,);
+      final glossSplit = _gloss.split(
+        ATTR_DELIMITER,
+      );
       for (String item in glossSplit) {
         if (item.indexOf("lang=") == 0) {
-          lang ??= item.replaceFirst("lang=", "",);
+          lang ??= item.replaceFirst(
+            "lang=",
+            "",
+          );
         } else if (item.indexOf("type=") == 0) {
-          gType ??= item.replaceFirst("type=", "",);
+          gType ??= item.replaceFirst(
+            "type=",
+            "",
+          );
         } else if (item.isNotEmpty) {
           text ??= item;
         }
@@ -460,7 +669,11 @@ class SenseElement {
       }
       if (text != null) {
         glossaries.add(
-          SenseGlossary(text, lang, gType,),
+          SenseGlossary(
+            text,
+            lang,
+            gType,
+          ),
         );
       }
     }
@@ -551,7 +764,6 @@ class SenseElement {
 ///
 /// Quoted from JMdict:37-39
 abstract class JMDictEntry {
-
   /// A unique numeric sequence number for each entry (unsigned integer)
   int get entrySequence;
 
