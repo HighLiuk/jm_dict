@@ -10,9 +10,10 @@ import 'package:jm_dict/src/seeker.dart';
 import 'package:jm_dict/src/utils.dart';
 import 'package:path_provider/path_provider.dart';
 
-export 'package:jm_dict/src/objectbox/objectbox.g.dart';
+export 'src/entities.dart';
 export 'src/enums.dart';
 export 'src/models.dart';
+export 'src/objectbox/objectbox.g.dart';
 
 class JMDict {
   JMDict._();
