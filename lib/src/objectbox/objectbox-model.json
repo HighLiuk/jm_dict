@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:2691512869897607746",
-      "lastPropertyId": "20:1906478964195216886",
+      "lastPropertyId": "21:1115903151369633878",
       "name": "JMDictEntryImpl",
       "properties": [
         {
@@ -108,6 +108,11 @@
           "id": "20:1906478964195216886",
           "name": "dialects",
           "type": 9
+        },
+        {
+          "id": "21:1115903151369633878",
+          "name": "noKanjiInfo",
+          "type": 27
         }
       ],
       "relations": []

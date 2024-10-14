@@ -157,7 +157,7 @@ class JMDictLoader {
     }
     final parentEvent = event.parent;
     if (parentEvent != null) {
-      final text = event.text;
+      final text = event.value;
       final name = parentEvent.name;
       switch (name) {
         case "ent_seq":
