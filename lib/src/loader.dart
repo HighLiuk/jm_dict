@@ -230,6 +230,7 @@ class _JMDictDownloader {
     final SendPort sendPort = message["sendPort"];
     final int? timeout = message["timeout"];
     final String path = message["path"];
+    final String? fileUrl = message["fileUrl"];
 
     FutureOr<Null> _handleError(dynamic e,) {
       sendPort.send(
@@ -242,7 +243,7 @@ class _JMDictDownloader {
     }
 
     HttpClient().getUrl(
-      Uri.parse(_fileUrl ?? _LATEST_FILE_URL,),
+      Uri.parse(fileUrl ?? _LATEST_FILE_URL,),
     ).then(
       (request) {
         (timeout != null ? request.close().timeout(Duration(seconds: timeout,),) : request.close()).then(
@@ -276,6 +277,7 @@ class _JMDictDownloader {
         "sendPort": receivePort.sendPort,
         "timeout": this.timeout,
         "path": gzPath,
+        "fileUrl": _fileUrl,
       },
     );
     late StreamSubscription downloadListener;
