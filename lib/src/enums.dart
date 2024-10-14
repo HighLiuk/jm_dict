@@ -264,6 +264,7 @@ enum ReadingInfo {
 
 enum SenseLanguage {
   eng,  /// English
+  ita,  /// Italian
   ger,  /// Germany
   rus,  /// Russian
   spa,  /// Spanish
