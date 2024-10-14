@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:jm_dict/src/constants.dart';
 import 'package:kana_kit/kana_kit.dart';
 
@@ -42,9 +41,7 @@ class KanjiElement {
   static late final Map<String, KanjiInfo> _keInf = Map.fromEntries(
     KanjiInfo.values.map(
       (e) => MapEntry(
-        describeEnum(
-          e,
-        ),
+        e.name,
         e,
       ),
     ),
@@ -73,9 +70,7 @@ class KanjiElement {
       final priorities = Map.fromEntries(
         ReadingPriority.values.map(
           (e) => MapEntry(
-            describeEnum(
-              e,
-            ),
+            e.name,
             e,
           ),
         ),
@@ -176,9 +171,7 @@ class ReadingElement {
   static late final Map<String, ReadingInfo> _reInf = Map.fromEntries(
     ReadingInfo.values.map(
       (e) => MapEntry(
-        describeEnum(
-          e,
-        ),
+        e.name,
         e,
       ),
     ),
@@ -207,9 +200,7 @@ class ReadingElement {
       final priorities = Map.fromEntries(
         ReadingPriority.values.map(
           (e) => MapEntry(
-            describeEnum(
-              e,
-            ),
+            e.name,
             e,
           ),
         ),
@@ -299,9 +290,7 @@ class ReadingElement {
 late final Map<String, SenseLanguage> _lang = Map.fromEntries(
   SenseLanguage.values.map(
     (e) => MapEntry(
-      describeEnum(
-        e,
-      ),
+      e.name,
       e,
     ),
   ),
@@ -341,9 +330,7 @@ class SenseLanguageSource {
   static late final Map<String, SourceLanguageType> _lsType = Map.fromEntries(
     SourceLanguageType.values.map(
       (e) => MapEntry(
-        describeEnum(
-          e,
-        ),
+        e.name,
         e,
       ),
     ),
@@ -389,9 +376,7 @@ class SenseLanguageSource {
   final bool isWasei;
 
   @override
-  String toString() => "(${describeEnum(
-        language,
-      )}) $source";
+  String toString() => "(${language.name}) $source";
 }
 
 /// Within each sense will be one or more "glosses", i.e.
@@ -414,9 +399,7 @@ class SenseGlossary {
       Map<String, GlossaryType>.fromEntries(
     GlossaryType.values.map(
       (e) => MapEntry(
-        describeEnum(
-          e,
-        ),
+        e.name,
         e,
       ),
     ),
@@ -438,9 +421,7 @@ class SenseGlossary {
   final GlossaryType? type;
 
   @override
-  String toString() => "${describeEnum(
-        language,
-      )} $text";
+  String toString() => "${language.name} $text";
 }
 
 /// The sense element will record the translational equivalent
@@ -485,9 +466,7 @@ class SenseElement {
       Map<String, PartOfSpeech>.fromEntries(
     PartOfSpeech.values.map(
       (e) => MapEntry(
-        describeEnum(
-          e,
-        ).replaceAll("_", "-"),
+        e.name.replaceAll("_", "-"),
         e,
       ),
     ),
@@ -512,9 +491,7 @@ class SenseElement {
       Map<String, SenseField>.fromEntries(
     SenseField.values.map(
       (e) => MapEntry(
-        describeEnum(
-          e,
-        ),
+        e.name,
         e,
       ),
     ),
@@ -539,9 +516,7 @@ class SenseElement {
       Map<String, SenseMiscellaneous>.fromEntries(
     SenseMiscellaneous.values.map(
       (e) => MapEntry(
-        describeEnum(
-          e,
-        ).replaceAll("_", "-"),
+        e.name.replaceAll("_", "-"),
         e,
       ),
     ),
@@ -566,9 +541,7 @@ class SenseElement {
       Map<String, Dialect>.fromEntries(
     Dialect.values.map(
       (e) => MapEntry(
-        describeEnum(
-          e,
-        ),
+        e.name,
         e,
       ),
     ),
