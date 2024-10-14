@@ -220,6 +220,13 @@ class JMDict {
 
   bool get isNotEmpty => !isEmpty;
 
+  Store? get store {
+    if (!_checkInit()) {
+      return null;
+    }
+    return _store;
+  }
+
   /// Closes the [Store]
   void close() {
     if (_isInitialized) {
